@@ -5,7 +5,8 @@ import { UpdateNewsDto } from './dto/update-news.dto.js';
 @Injectable()
 export class NewsService {
   create(createNewsDto: CreateNewsDto) {
-    return 'This action adds a new news';
+    // Por ahora devolvemos lo recibido. La base de datos se conecta con Prisma más adelante.
+    return createNewsDto;
   }
 
   findAll() {
