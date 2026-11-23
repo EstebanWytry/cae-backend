@@ -5,7 +5,7 @@ function partesDeFecha(fecha: string) {
   return { anio, mes, dia };
 }
 
-function diasDelMes(anio: number, mes: number) {
+export function diasDelMes(anio: number, mes: number) {
   // Día 0 del mes siguiente = último día de este mes (mes va de 1 a 12).
   return new Date(anio, mes, 0).getDate();
 }
