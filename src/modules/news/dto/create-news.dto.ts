@@ -7,27 +7,27 @@ import {
 } from 'class-validator';
 
 export class CreateNewsDto {
-  @IsIn(['Básquet', 'Cestoball', 'Club'], {
-    message: 'La categoría debe ser Básquet, Cestoball o Club',
+  @IsIn(['basketball', 'cestoball', 'club'], {
+    message: 'La categoría debe ser basketball, cestoball o club',
   })
-  categoria: string;
+  category: string;
 
   @IsString({ message: 'El título debe ser texto' })
   @IsNotEmpty({ message: 'El título es obligatorio' })
-  titulo: string;
+  title: string;
 
   @IsString({ message: 'El resumen debe ser texto' })
   @IsNotEmpty({ message: 'El resumen es obligatorio' })
-  resumen: string;
+  summary: string;
 
   @IsOptional()
   @IsString({ message: 'El contenido debe ser texto' })
-  contenido?: string;
+  content?: string;
 
   @IsOptional()
   @IsString({ message: 'La imagen debe ser una URL en formato texto' })
-  imagen?: string;
+  image?: string;
 
   @IsDateString({}, { message: 'La fecha debe tener formato AAAA-MM-DD' })
-  fecha: string;
+  date: string;
 }
