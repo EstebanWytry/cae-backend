@@ -5,7 +5,8 @@ import { UpdateSportDto } from './dto/update-sport.dto.js';
 @Injectable()
 export class SportsService {
   create(createSportDto: CreateSportDto) {
-    return 'This action adds a new sport';
+    // Por ahora devolvemos lo recibido. La base de datos se conecta con Prisma más adelante.
+    return createSportDto;
   }
 
   findAll() {
@@ -17,7 +18,26 @@ export class SportsService {
   }
 
   update(id: number, updateSportDto: UpdateSportDto) {
-    return `This action updates a #${id} sport`;
+    // Tomamos solo campos permitidos porque el ValidationPipe no descarta campos extra.
+    const changes: Partial<CreateSportDto> = {};
+
+    if (updateSportDto.slug !== undefined) {
+      changes.slug = updateSportDto.slug;
+    }
+    if (updateSportDto.name !== undefined) {
+      changes.name = updateSportDto.name;
+    }
+    if (updateSportDto.description !== undefined) {
+      changes.description = updateSportDto.description;
+    }
+    if (updateSportDto.image !== undefined) {
+      changes.image = updateSportDto.image;
+    }
+
+    return {
+      id,
+      changes,
+    };
   }
 
   remove(id: number) {
