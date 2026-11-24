@@ -5,7 +5,7 @@ import { UpdateSportDto } from './dto/update-sport.dto.js';
 @Injectable()
 export class SportsService {
   create(createSportDto: CreateSportDto) {
-    return 'This action adds a new sport';
+    return createSportDto;
   }
 
   findAll() {
@@ -17,7 +17,25 @@ export class SportsService {
   }
 
   update(id: number, updateSportDto: UpdateSportDto) {
-    return `This action updates a #${id} sport`;
+    const changes: Partial<CreateSportDto> = {};
+
+    if (updateSportDto.slug !== undefined) {
+      changes.slug = updateSportDto.slug;
+    }
+    if (updateSportDto.name !== undefined) {
+      changes.name = updateSportDto.name;
+    }
+    if (updateSportDto.description !== undefined) {
+      changes.description = updateSportDto.description;
+    }
+    if (updateSportDto.image !== undefined) {
+      changes.image = updateSportDto.image;
+    }
+
+    return {
+      id,
+      changes,
+    };
   }
 
   remove(id: number) {
