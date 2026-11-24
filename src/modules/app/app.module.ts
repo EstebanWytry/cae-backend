@@ -8,9 +8,11 @@ import { NewsModule } from '../news/news.module.js';
 import { NotificationsModule } from '../notifications/notifications.module.js';
 import { SportsModule } from '../sports/sports.module.js';
 import { UploadsModule } from '../uploads/uploads.module.js';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({isGlobal: true}),
     AuthModule,
     UsersModule,
     MembersModule,
