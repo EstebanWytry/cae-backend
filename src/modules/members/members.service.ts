@@ -5,7 +5,8 @@ import { UpdateMemberDto } from './dto/update-member.dto.js';
 @Injectable()
 export class MembersService {
   create(createMemberDto: CreateMemberDto) {
-    return 'This action adds a new member';
+    // Por ahora devolvemos lo recibido. La base de datos se conecta con Prisma más adelante.
+    return createMemberDto;
   }
 
   findAll() {
