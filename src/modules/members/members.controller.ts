@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, BadRequestException, UseGuards } from '@nestjs/common';
 import { MembersService } from './members.service.js';
 import { CreateMemberDto } from './dto/create-member.dto.js';
 import { UpdateMemberDto } from './dto/update-member.dto.js';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 
 @Controller('members')
 export class MembersController {
@@ -31,6 +32,8 @@ export class MembersController {
   remove(@Param('id') id: string) {
     return this.membersService.remove(+id);
   }
+
+  @UseGuards(JwtAuthGuard)
 
   @Post(':id/payments')
   registerPayment(
