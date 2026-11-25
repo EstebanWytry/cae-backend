@@ -11,3 +11,149 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+// ENUMS
+
+enum Role {
+  member
+  admin
+}
+
+enum Weekday {
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
+  sunday
+}
+
+enum NewsCategory {
+  basketball
+  cestoball
+  club
+}
+
+// MODELS
+
+model User {
+  id            Int      @id @default(autoincrement())
+  email         String   @unique
+  password_hash String
+  role          Role     @default(member)
+  created_at    DateTime @default(now())
+
+  member Member?
+
+  @@map("users")
+}
+
+model Member {
+  user_id    Int      @id
+  name       String
+  document   String   @unique
+  birth_date DateTime @db.Date
+  created_at DateTime @default(now())
+
+  user     User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  sports   MemberSport[]
+  payments Payment[]
+
+  @@map("members")
+}
+
+model Payment {
+  id           Int      @id @default(autoincrement())
+  member_id    Int
+  amount       Decimal  @db.Decimal(10, 2)
+  period_month Int
+  period_year  Int
+  paid_at      DateTime @db.Date
+  created_at   DateTime @default(now())
+
+  member Member @relation(fields: [member_id], references: [user_id], onDelete: Cascade)
+
+  @@unique([member_id, period_month, period_year])
+  @@map("payments")
+}
+
+model Sport {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  name        String
+  description String?
+  image       String?
+
+  categories Category[]
+  coaches    Coach[]
+
+  @@map("sports")
+}
+
+model Category {
+  id       Int     @id @default(autoincrement())
+  sport_id Int
+  name     String
+  min_age  Int
+  max_age  Int?
+
+  sport     Sport         @relation(fields: [sport_id], references: [id], onDelete: Cascade)
+  schedules Schedule[]
+  members   MemberSport[]
+
+  @@unique([sport_id, name])
+  @@unique([id, sport_id])
+  @@map("categories")
+}
+
+model MemberSport {
+  member_id  Int
+  sport_id   Int
+  category_id Int
+
+  member   Member   @relation(fields: [member_id], references: [user_id], onDelete: Cascade)
+  category Category @relation(fields: [category_id, sport_id], references: [id, sport_id], onDelete: Cascade)
+
+  @@id([member_id, sport_id])
+  @@map("member_sports")
+}
+
+model Schedule {
+  id         Int      @id @default(autoincrement())
+  sport_id   Int
+  category_id Int
+  day        Weekday
+  start_time DateTime @db.Time(0)
+  end_time   DateTime @db.Time(0)
+
+  category Category @relation(fields: [category_id, sport_id], references: [id, sport_id], onDelete: Cascade)
+
+  @@map("schedules")
+}
+
+model Coach {
+  id       Int     @id @default(autoincrement())
+  sport_id Int
+  name     String
+  role     String
+  image    String?
+
+  sport Sport @relation(fields: [sport_id], references: [id], onDelete: Cascade)
+
+  @@map("coaches")
+}
+
+model News {
+  id         Int          @id @default(autoincrement())
+  category   NewsCategory
+  title      String
+  summary    String
+  content    String?
+  image      String?
+  date       DateTime     @db.Date
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+
+  @@map("news")
+}
