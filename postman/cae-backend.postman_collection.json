@@ -1,0 +1,1257 @@
+{
+  "info": {
+    "_postman_id": "18599602-0cb9-4c44-a80f-a1f50f053884",
+    "name": "CAE Backend API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "59283032",
+    "_collection_link": "https://go.postman.co/collection/59283032-18599602-0cb9-4c44-a80f-a1f50f053884?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "sports",
+      "item": [
+        {
+          "name": "POST - valido",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"slug\": \"basquet\",\r\n  \"name\": \"Básquet\",\r\n  \"description\": \"Deporte de prueba para Postman\",\r\n  \"image\": \"https://ejemplo.com/basquet.jpg\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/sports",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - sin opcionales",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"slug\": \"cestoball\",\r\n  \"name\": \"Cestoball\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/sports",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - slug numero",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"slug\": 123,\r\n  \"name\": \"Básquet\",\r\n  \"description\": \"Deporte de prueba para Postman\",\r\n  \"image\": \"https://ejemplo.com/basquet.jpg\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/sports",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - falta name",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"slug\": \"basquet\",\r\n  \"description\": \"Deporte de prueba para Postman\",\r\n  \"image\": \"https://ejemplo.com/basquet.jpg\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/sports",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - falta name vacio.",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"slug\": \"basquet\",\r\n  \"name\": \"\",\r\n  \"description\": \"Deporte de prueba para Postman\",\r\n  \"image\": \"https://ejemplo.com/basquet.jpg\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/sports",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sports"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "notifications",
+      "item": [
+        {
+          "name": "GET - valido",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications?type=pendiente",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "notifications"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "pendiente"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET - type vacio",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications?type=",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "notifications"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET - type repetido",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications?type=pendiente&type=vencida",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "notifications"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "pendiente"
+                },
+                {
+                  "key": "type",
+                  "value": "vencida"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET - type invalido",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications?type=otro",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "notifications"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "otro"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET - sin type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "notifications"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "news",
+      "item": [
+        {
+          "name": "POST - valido",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"category\": \"club\",\r\n  \"title\": \"Noticia de prueba\",\r\n  \"summary\": \"Resumen de prueba\",\r\n  \"content\": \"Contenido de prueba de la noticia\",\r\n  \"image\": \"https://example.com/imagen-prueba.jpg\",\r\n  \"date\": \"2026-11-25\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/news",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - fecha inválida",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"category\": \"club\",\r\n  \"title\": \"Noticia de prueba\",\r\n  \"summary\": \"Resumen de prueba\",\r\n  \"content\": \"Contenido de prueba de la noticia\",\r\n  \"image\": \"https://example.com/imagen-prueba.jpg\",\r\n  \"date\": \"25/11/2026\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/news",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - title tipo incorrecto",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"category\": \"club\",\r\n  \"title\": 123,\r\n  \"summary\": \"Resumen de prueba\",\r\n  \"content\": \"Contenido de prueba de la noticia\",\r\n  \"image\": \"https://example.com/imagen-prueba.jpg\",\r\n  \"date\": \"2026-11-25\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/news",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - categoría inválida",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"category\": \"futbol\",\r\n  \"title\": \"Noticia de prueba\",\r\n  \"summary\": \"Resumen de prueba\",\r\n  \"content\": \"Contenido de prueba de la noticia\",\r\n  \"image\": \"https://example.com/imagen-prueba.jpg\",\r\n  \"date\": \"2026-11-25\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/news",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - falta title",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"category\": \"club\",\r\n  \"summary\": \"Resumen de prueba\",\r\n  \"content\": \"Contenido de prueba de la noticia\",\r\n  \"image\": \"https://example.com/imagen-prueba.jpg\",\r\n  \"date\": \"2026-11-25\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/news",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - opcionales ausentes",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"category\": \"club\",\r\n  \"title\": \"Noticia de prueba\",\r\n  \"summary\": \"Resumen de prueba\",\r\n  \"date\": \"2026-11-25\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/news",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Título actualizado de prueba\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/news/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH - categoría inválida",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"category\": \"futbol\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/news/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET - listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/news",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET - por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/news/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE - por id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/news/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET - id no numérico",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/news/abc",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "news",
+                "abc"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "members",
+      "item": [
+        {
+          "name": "POST - valido",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": \"30111222\",\r\n  \"email\": \"juan.perez@ejemplo.com\",\r\n  \"birth_date\": \"2000-05-15\",\r\n  \"sports\": [\"basquet\", \"cestoball\"],\r\n  \"paid_at\": \"2026-11-10\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - sports texto",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": \"30111222\",\r\n  \"email\": \"juan.perez@ejemplo.com\",\r\n  \"birth_date\": \"2000-05-15\",\r\n  \"sports\": \"basquet\",\r\n  \"paid_at\": \"2026-11-10\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - sports repetido",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": \"30111222\",\r\n  \"email\": \"juan.perez@ejemplo.com\",\r\n  \"birth_date\": \"2000-05-15\",\r\n  \"sports\": [\"basquet\", \"basquet\"],\r\n  \"paid_at\": \"2026-11-10\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - document numero",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": \"30111222\",\r\n  \"email\": \"juan.perez@ejemplo.com\",\r\n  \"birth_date\": \"2000-05-15\",\r\n  \"sports\": \"basquet\",\r\n  \"paid_at\": \"2026-11-10\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - fecha invalida",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": \"30111222\",\r\n  \"email\": \"juan.perez@ejemplo.com\",\r\n  \"birth_date\": \"15/05/2000\",\r\n  \"sports\": [\"basquet\", \"cestoball\"],\r\n  \"paid_at\": \"2026-11-10\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - email invalido",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": \"30111222\",\r\n  \"email\": \"juan.com\",\r\n  \"birth_date\": \"2000-05-15\",\r\n  \"sports\": [\"basquet\", \"cestoball\"],\r\n  \"paid_at\": \"2026-11-10\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - sin paid_at",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": \"30111222\",\r\n  \"email\": \"juan.perez@ejemplo.com\",\r\n  \"birth_date\": \"2000-05-15\",\r\n  \"sports\": [\"basquet\", \"cestoball\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - falta email",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": \"30111222\",\r\n  \"email\": \"juan.com\",\r\n  \"birth_date\": \"2000-05-15\",\r\n  \"sports\": [\"basquet\", \"cestoball\"],\r\n  \"paid_at\": \"2026-11-10\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH - valido",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Juan Pablo Pérez\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH - email no editable",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Juan Pablo Pérez\",\r\n  \"email\": \"otro@ejemplo.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH - sports",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"sports\": [\"basquet\", \"basquet\"]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH - document numero",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"document\": 30111222\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH - body vacio",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH - fecha invalida",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"birth_date\": \"15/05/2000\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/members/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "POST login - válido",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"prueba@ejemplo.com\",\r\n  \"password\": \"clave-de-prueba\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST login - body vacío",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST login - password tipo incorrecto",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"prueba@ejemplo.com\",\r\n  \"password\": 12345678\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST login - falta password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"prueba@ejemplo.com\",\r\n  \"password\": \"clave-de-prueba\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST login - email con mayúsculas",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"Prueba@Ejemplo.COM\",\r\n  \"password\": \"clave-de-prueba\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST login - email inválido",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"prueba-sin-arroba\",\r\n  \"password\": \"clave-de-prueba\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "uploads",
+      "item": [
+        {
+          "name": "POST - sin archivo",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/uploads",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "uploads"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - tipo no permitido",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "7566066b-5dcb-4acb-8449-bd3b0ac2ffc7",
+                  "src": "prueba.txt"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/uploads",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "uploads"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - válido",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "7566066b-5dcb-4acb-8449-bd3b0ac2ffc7",
+                  "src": "prueba.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/uploads",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "uploads"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE - nombre inválido",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/uploads/foto-invalida.png",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "uploads",
+                "foto-invalida.png"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE - foto existente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/uploads/1102c64c-14f3-40be-be46-eb3b03eb98e5.jpg",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "uploads",
+                "1102c64c-14f3-40be-be46-eb3b03eb98e5.jpg"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE - foto inexistente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/uploads/1102c64c-14f3-40be-be46-eb3b03eb98e5.jpg",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "uploads",
+                "1102c64c-14f3-40be-be46-eb3b03eb98e5.jpg"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "value": ""
+    }
+  ]
+}
