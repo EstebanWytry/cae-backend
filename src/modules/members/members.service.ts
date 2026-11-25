@@ -5,14 +5,21 @@ import { hashPassword } from '../../common/password.js';
 
 @Injectable()
 export class MembersService {
-    async create(createMemberDto: CreateMemberDto) {
+  async create(createMemberDto: CreateMemberDto) {
+    // La contraseña inicial del socio es su documento, guardado siempre hasheado.
     const password_hash = await hashPassword(createMemberDto.document);
 
+    // Temporal: con Prisma, el hash se guarda en la tabla users y NO se devuelve al cliente.
     return { ...createMemberDto, password_hash };
   }
 
   findAll() {
     return `This action returns all members`;
+  }
+
+  findMe(id: number) {
+    // Por ahora devolvemos un texto. Con Prisma se busca el perfil por este id.
+    return `This action returns the profile of member #${id}`;
   }
 
   findOne(id: number) {
@@ -27,7 +34,6 @@ export class MembersService {
     return `This action removes a #${id} member`;
   }
 
-  
   registerPayment(id: number) {
     // Por ahora devolvemos un texto. El cálculo de la fecha con calcularFechaDePago se conecta con Prisma más adelante.
     return `This action registers a payment for member #${id}`;
