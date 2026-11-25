@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   BadRequestException,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { MembersService } from './members.service.js';
 import { CreateMemberDto } from './dto/create-member.dto.js';
@@ -31,6 +32,12 @@ export class MembersController {
   @Get()
   findAll() {
     return this.membersService.findAll();
+  }
+
+  @Get('me')
+  @Roles('admin', 'member')
+  findMe(@Req() req: { user: { id: number; role: string } }) {
+    return this.membersService.findMe(req.user.id);
   }
 
   @Get(':id')
