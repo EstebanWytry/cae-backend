@@ -24,4 +24,10 @@ export class MembersService {
   remove(id: number) {
     return `This action removes a #${id} member`;
   }
+
+  
+  registerPayment(id: number) {
+    // Por ahora devolvemos un texto. El cálculo de la fecha con calcularFechaDePago se conecta con Prisma más adelante.
+    return `This action registers a payment for member #${id}`;
+  }
 }

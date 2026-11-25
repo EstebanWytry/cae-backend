@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, BadRequestException } from '@nestjs/common';
 import { MembersService } from './members.service.js';
 import { CreateMemberDto } from './dto/create-member.dto.js';
 import { UpdateMemberDto } from './dto/update-member.dto.js';
@@ -30,5 +30,18 @@ export class MembersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.membersService.remove(+id);
+  }
+
+  @Post(':id/payments')
+  registerPayment(
+    @Param(
+      'id',
+      new ParseIntPipe({
+        exceptionFactory: () => new BadRequestException('El id del socio debe ser un número'),
+      }),
+    )
+    id: number,
+  ) {
+    return this.membersService.registerPayment(id);
   }
 }
