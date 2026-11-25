@@ -8,9 +8,11 @@ import { NewsModule } from '../news/news.module.js';
 import { NotificationsModule } from '../notifications/notifications.module.js';
 import { SportsModule } from '../sports/sports.module.js';
 import { UploadsModule } from '../uploads/uploads.module.js';
+import { PrismaModule } from '../../database/prisma.module.js';
 
 @Module({
   imports: [
+    PrismaModule,
     AuthModule,
     UsersModule,
     MembersModule,
