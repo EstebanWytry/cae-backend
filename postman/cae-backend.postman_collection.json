@@ -115,7 +115,7 @@
           "response": []
         },
         {
-          "name": "POST - falta name vacio.",
+          "name": "POST - name vacío",
           "request": {
             "method": "POST",
             "header": [],
@@ -135,6 +135,113 @@
               ],
               "path": [
                 "sports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET - listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/sports",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET - por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/sports/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sports",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH - válido",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Básquet actualizado\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/sports/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sports",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PATCH - name vacío",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/sports/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sports",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE - por id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/sports/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sports",
+                "1"
               ]
             }
           },
@@ -420,7 +527,7 @@
           "response": []
         },
         {
-          "name": "New Request",
+          "name": "PATCH - válido",
           "request": {
             "method": "PATCH",
             "header": [],
@@ -634,7 +741,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": \"30111222\",\r\n  \"email\": \"juan.perez@ejemplo.com\",\r\n  \"birth_date\": \"2000-05-15\",\r\n  \"sports\": \"basquet\",\r\n  \"paid_at\": \"2026-11-10\"\r\n}",
+              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": 30111222,\r\n  \"email\": \"juan.perez@ejemplo.com\",\r\n  \"birth_date\": \"2000-05-15\",\r\n  \"sports\": [\"basquet\", \"cestoball\"],\r\n  \"paid_at\": \"2026-11-10\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -738,7 +845,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": \"30111222\",\r\n  \"email\": \"juan.com\",\r\n  \"birth_date\": \"2000-05-15\",\r\n  \"sports\": [\"basquet\", \"cestoball\"],\r\n  \"paid_at\": \"2026-11-10\"\r\n}",
+              "raw": "{\r\n  \"name\": \"Juan Pérez\",\r\n  \"document\": \"30111222\",\r\n  \"birth_date\": \"2000-05-15\",\r\n  \"sports\": [\"basquet\", \"cestoball\"],\r\n  \"paid_at\": \"2026-11-10\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -918,6 +1025,97 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "GET - listar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET - por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE - por id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - registrar pago",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members/1/payments",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members",
+                "1",
+                "payments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - registrar pago id no numérico",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members/abc/payments",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "members",
+                "abc",
+                "payments"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -1012,7 +1210,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"prueba@ejemplo.com\",\r\n  \"password\": \"clave-de-prueba\"\r\n}",
+              "raw": "{\r\n  \"email\": \"prueba@ejemplo.com\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1196,7 +1394,8 @@
                 "uploads",
                 "1102c64c-14f3-40be-be46-eb3b03eb98e5.jpg"
               ]
-            }
+            },
+            "description": "Antes de ejecutar esta petición, correr \"POST - válido\" y copiar el nombre del archivo  \nque aparece al final de la url devuelta (el UUID con extensión, por ejemplo  \nxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.jpg). Reemplazarlo en la URL de esta petición.  \nSi la foto ya fue borrada, responde 404 (ver \"DELETE - foto inexistente\")."
           },
           "response": []
         },
@@ -1248,10 +1447,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": ""
-    },
-    {
-      "value": ""
+      "value": "http://localhost:3000"
     }
   ]
 }
