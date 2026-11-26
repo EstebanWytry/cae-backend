@@ -9,6 +9,7 @@ import { PrismaService } from '../../database/prisma.service.js';
 import { hashPassword } from '../../common/password.js';
 import { edadEnElAnio, buscarCategoria } from './rules/age-category.js';
 import { armarFichaSocio } from './rules/member-summary.js';
+import { calcularFechaDePago } from './rules/payment.js';
 
 function formatearFecha(fecha: Date): string {
   return fecha.toISOString().slice(0, 10);
@@ -315,7 +316,54 @@ export class MembersService {
     });
   }
 
-  registerPayment(id: number) {
-    return `This action registers a payment for member #${id}`;
+  async registerPayment(id: number) {
+    return this.prisma.$transaction(async (tx) => {
+      const socio = await tx.member.findUnique({
+        where: { user_id: id },
+        include: {
+          payments: {
+            orderBy: { paid_at: 'desc' },
+            take: 1,
+          },
+        },
+      });
+
+      if (!socio) {
+        throw new NotFoundException('Socio no encontrado');
+      }
+
+      const ultimoPago = socio.payments[0]
+        ? formatearFecha(socio.payments[0].paid_at)
+        : null;
+
+      const fechaActual = obtenerFechaActual();
+      const fechaPago = calcularFechaDePago(ultimoPago, fechaActual);
+
+      if (!fechaPago) {
+        throw new BadRequestException('El socio ya tiene la cuota al día');
+      }
+
+      const [anio, mes] = fechaPago.split('-').map(Number);
+
+      const pago = await tx.payment.create({
+        data: {
+          member_id: id,
+          paid_at: new Date(`${fechaPago}T00:00:00.000Z`),
+          period_month: mes,
+          period_year: anio,
+        },
+      });
+
+      return {
+        message: 'Pago registrado correctamente',
+        payment: {
+          id: pago.id,
+          member_id: pago.member_id,
+          paid_at: formatearFecha(pago.paid_at),
+          period_month: pago.period_month,
+          period_year: pago.period_year,
+        },
+      };
+    });
   }
 }
