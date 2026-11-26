@@ -8,6 +8,25 @@ import { UpdateMemberDto } from './dto/update-member.dto.js';
 import { PrismaService } from '../../database/prisma.service.js';
 import { hashPassword } from '../../common/password.js';
 import { edadEnElAnio, buscarCategoria } from './rules/age-category.js';
+import { armarFichaSocio } from './rules/member-summary.js';
+
+function formatearFecha(fecha: Date): string {
+  return fecha.toISOString().slice(0, 10);
+}
+
+function obtenerFechaActual(): string {
+  const partes = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Argentina/Buenos_Aires',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date());
+
+  const obtener = (tipo: string) =>
+    partes.find((parte) => parte.type === tipo)!.value;
+
+  return `${obtener('year')}-${obtener('month')}-${obtener('day')}`;
+}
 
 @Injectable()
 export class MembersService {
@@ -17,7 +36,7 @@ export class MembersService {
     const { name, document, email, birth_date, sports, paid_at } =
       createMemberDto;
 
-    const fechaActual = new Date().toISOString().slice(0, 10);
+    const fechaActual = obtenerFechaActual();
     const edad = edadEnElAnio(birth_date, fechaActual);
 
     const deportes = await this.prisma.sport.findMany({
@@ -92,16 +111,100 @@ export class MembersService {
     };
   }
 
-  findAll() {
-    return `This action returns all members`;
+  async findAll() {
+    const socios = await this.prisma.member.findMany({
+      orderBy: { name: 'asc' },
+      include: {
+        user: { select: { email: true } },
+        payments: { select: { paid_at: true } },
+        sports: {
+          include: {
+            category: {
+              include: {
+                sport: {
+                  include: { categories: true },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const hoy = obtenerFechaActual();
+
+    return socios.map((socio) =>
+      armarFichaSocio(
+        {
+          user_id: socio.user_id,
+          name: socio.name,
+          document: socio.document,
+          birth_date: formatearFecha(socio.birth_date),
+          user: socio.user,
+          payments: socio.payments.map((pago) => ({
+            paid_at: formatearFecha(pago.paid_at),
+          })),
+          sports: socio.sports.map(({ category }) => ({
+            sport: {
+              slug: category.sport.slug,
+              name: category.sport.name,
+              categories: category.sport.categories,
+            },
+          })),
+        },
+        hoy,
+      ),
+    );
   }
 
-  findMe(id: number) {
-    return `This action returns the profile of member #${id}`;
+  async findMe(id: number) {
+    return this.findOne(id);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
+  async findOne(id: number) {
+    const socio = await this.prisma.member.findUnique({
+      where: { user_id: id },
+      include: {
+        user: { select: { email: true } },
+        payments: { select: { paid_at: true } },
+        sports: {
+          include: {
+            category: {
+              include: {
+                sport: {
+                  include: { categories: true },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!socio) {
+      throw new NotFoundException('Socio no encontrado');
+    }
+
+    return armarFichaSocio(
+      {
+        user_id: socio.user_id,
+        name: socio.name,
+        document: socio.document,
+        birth_date: formatearFecha(socio.birth_date),
+        user: socio.user,
+        payments: socio.payments.map((pago) => ({
+          paid_at: formatearFecha(pago.paid_at),
+        })),
+        sports: socio.sports.map(({ category }) => ({
+          sport: {
+            slug: category.sport.slug,
+            name: category.sport.name,
+            categories: category.sport.categories,
+          },
+        })),
+      },
+      obtenerFechaActual(),
+    );
   }
 
   update(id: number, updateMemberDto: UpdateMemberDto) {
