@@ -1,16 +1,17 @@
 import {
   IsDateString,
-  IsIn,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
+import { NewsCategory } from '../../../generated/prisma/client.js';
 
 export class CreateNewsDto {
-  @IsIn(['basketball', 'cestoball', 'club'], {
+  @IsEnum(NewsCategory, {
     message: 'La categoría debe ser basketball, cestoball o club',
   })
-  category: string;
+  category: NewsCategory;
 
   @IsString({ message: 'El título debe ser texto' })
   @IsNotEmpty({ message: 'El título es obligatorio' })
