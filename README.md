@@ -2,6 +2,18 @@
 
 API REST del sistema de gestión del **Club Atlético Estudiantes Tucumán**. Este backend permite administrar socios, deportes, categorías, profesores, horarios, pagos, noticias y notificaciones del club.
 
+## Institución y autores
+
+**Universidad:** Universidad Tecnológica Nacional – Facultad Regional Tucumán (UTN FRT)  
+**Carrera:** Tecnicatura Universitaria en Programación  
+**Proyecto:** Sistema de gestión del Club Atlético Estudiantes Tucumán
+
+### Integrantes
+
+- Alvarado, Walter Martín
+- Herrera López, Federico
+- Wytrykusz, Juan Esteban
+
 ## Tecnologías
 
 - **Node.js** y **TypeScript**
