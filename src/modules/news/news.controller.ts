@@ -1,13 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  UseGuards,
+} from '@nestjs/common';
 import { NewsService } from './news.service.js';
 import { CreateNewsDto } from './dto/create-news.dto.js';
 import { UpdateNewsDto } from './dto/update-news.dto.js';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { RolesGuard } from '../auth/guards/roles.guard.js';
+import { Roles } from '../auth/decorators/roles.decorator.js';
 
 @Controller('news')
 export class NewsController {
   constructor(private readonly newsService: NewsService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   create(@Body() createNewsDto: CreateNewsDto) {
     return this.newsService.create(createNewsDto);
   }
@@ -18,17 +33,24 @@ export class NewsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.newsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.newsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNewsDto: UpdateNewsDto) {
-    return this.newsService.update(+id, updateNewsDto);
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateNewsDto: UpdateNewsDto,
+  ) {
+    return this.newsService.update(id, updateNewsDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.newsService.remove(+id);
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.newsService.remove(id);
   }
 }
