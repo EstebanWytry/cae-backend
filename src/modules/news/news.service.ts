@@ -1,27 +1,83 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { PrismaService } from '../../database/prisma.service.js';
+import { UploadsService } from '../uploads/uploads.service.js';
 import { CreateNewsDto } from './dto/create-news.dto.js';
 import { UpdateNewsDto } from './dto/update-news.dto.js';
 
 @Injectable()
 export class NewsService {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly uploadsService: UploadsService,
+  ) {}
+
   create(createNewsDto: CreateNewsDto) {
-    // Por ahora devolvemos lo recibido. La base de datos se conecta con Prisma más adelante.
-    return createNewsDto;
+    return this.prisma.news.create({
+      data: {
+        ...createNewsDto,
+        date: new Date(`${createNewsDto.date}T00:00:00.000Z`),
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all news`;
+    return this.prisma.news.findMany({
+      orderBy: [{ date: 'desc' }, { created_at: 'desc' }],
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} news`;
+  async findOne(id: number) {
+    const noticia = await this.prisma.news.findUnique({
+      where: { id },
+    });
+
+    if (!noticia) {
+      throw new NotFoundException('Noticia no encontrada');
+    }
+
+    return noticia;
   }
 
-  update(id: number, updateNewsDto: UpdateNewsDto) {
-    return `This action updates a #${id} news`;
+  async update(id: number, updateNewsDto: UpdateNewsDto) {
+    const noticiaActual = await this.findOne(id);
+
+    const noticiaActualizada = await this.prisma.news.update({
+      where: { id },
+      data: {
+        ...updateNewsDto,
+        ...(updateNewsDto.date !== undefined && {
+          date: new Date(`${updateNewsDto.date}T00:00:00.000Z`),
+        }),
+      },
+    });
+
+    if (
+      noticiaActual.image &&
+      updateNewsDto.image !== undefined &&
+      noticiaActual.image !== updateNewsDto.image
+    ) {
+      await this.uploadsService.removeByUrl(noticiaActual.image);
+    }
+
+    return noticiaActualizada;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} news`;
+  async remove(id: number) {
+    const noticia = await this.findOne(id);
+
+    await this.prisma.news.delete({
+      where: { id },
+    });
+
+    if (noticia.image) {
+      await this.uploadsService.removeByUrl(noticia.image);
+    }
+
+    return {
+      message: 'Noticia eliminada correctamente',
+    };
   }
 }
