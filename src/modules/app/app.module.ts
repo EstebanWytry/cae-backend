@@ -8,6 +8,7 @@ import { MembersModule } from '../members/members.module.js';
 import { NewsModule } from '../news/news.module.js';
 import { NotificationsModule } from '../notifications/notifications.module.js';
 import { SportsModule } from '../sports/sports.module.js';
+import { CategoriesModule } from '../categories/categories.module.js';
 import { UploadsModule } from '../uploads/uploads.module.js';
 import { PrismaModule } from '../../database/prisma.module.js';
 
@@ -21,6 +22,7 @@ import { PrismaModule } from '../../database/prisma.module.js';
     NewsModule,
     NotificationsModule,
     SportsModule,
+    CategoriesModule,
     UploadsModule,
   ],
   controllers: [AppController],
