@@ -1,126 +1,343 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# CAE Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST del sistema de gestión del **Club Atlético Estudiantes Tucumán**. Este backend permite administrar socios, deportes, categorías, profesores, horarios, pagos, noticias y notificaciones del club.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tecnologías
 
-## Description
+- **Node.js** y **TypeScript**
+- **NestJS 12** – Framework para desarrollar la API REST.
+- **PostgreSQL** – Base de datos relacional.
+- **Prisma ORM 7** – Acceso y administración de la base de datos.
+- **Supabase** – Base de datos alojada y almacenamiento de imágenes.
+- **JWT** – Autenticación mediante tokens.
+- **bcrypt** – Hash de contraseñas.
+- **Vitest** – Ejecución de pruebas.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Funcionalidades
 
-## Project setup
+### Autenticación y usuarios
+- Inicio de sesión mediante correo electrónico y contraseña.
+- Generación de tokens JWT.
+- Contraseñas almacenadas mediante hash.
+- Roles de usuario: `admin` y `member`.
+- Protección de rutas según autenticación y permisos.
 
-```bash
-$ npm install
+### Socios
+- Registro, consulta, modificación y eliminación de socios.
+- Asociación de socios con uno o más deportes.
+- Asignación automática de categorías según la edad.
+- Consulta de la información del socio autenticado.
+- Registro de pagos mensuales.
+- Consulta del estado de las cuotas.
+
+### Deportes y categorías
+- Administración de deportes.
+- Administración de categorías por deporte.
+- Definición de edades mínimas y máximas.
+- Control de rangos de edades para evitar superposiciones.
+
+### Profesores
+- Registro y administración de profesores.
+- Asociación de profesores con sus respectivos deportes.
+
+### Horarios
+- Administración de horarios de entrenamiento.
+- Asociación con deportes y categorías.
+- Organización por día de la semana y franja horaria.
+- Validación de horarios y prevención de superposiciones para un mismo deporte y día.
+
+### Noticias
+- Publicación, consulta, modificación y eliminación de noticias.
+- Clasificación por deporte o noticias generales del club.
+- Asociación de imágenes a las publicaciones.
+
+### Notificaciones
+- Generación automática de avisos relacionados con las cuotas de los socios.
+- Clasificación de notificaciones según el estado de pago:
+  - `por_vencer`
+  - `pendiente`
+  - `vencida`
+  - `inactivo`
+  - `sin_pagos`
+
+### Imágenes
+- Carga y eliminación de imágenes mediante Supabase Storage.
+- Formatos permitidos: JPG, PNG y WebP.
+- Tamaño máximo permitido: 5 MB.
+- Generación de nombres únicos para los archivos.
+
+## Estructura del proyecto
+
+```text
+cae-backend/
+├── prisma/
+│   ├── migrations/
+│   ├── schema.prisma
+│   └── prisma7.config.ts
+├── src/
+│   ├── common/
+│   │   ├── password.ts
+│   │   └── today.ts
+│   ├── database/
+│   │   ├── prisma.module.ts
+│   │   └── prisma.service.ts
+│   ├── modules/
+│   │   ├── app/
+│   │   ├── auth/
+│   │   ├── users/
+│   │   ├── members/
+│   │   ├── sports/
+│   │   ├── categories/
+│   │   ├── coaches/
+│   │   ├── schedules/
+│   │   ├── news/
+│   │   ├── notifications/
+│   │   └── uploads/
+│   └── main.ts
+├── postman/
+│   └── cae-backend.postman_collection.json
+├── package.json
+└── tsconfig.json
 ```
 
-## Compile and run the project
+Cada módulo contiene la lógica correspondiente a una funcionalidad del sistema. Los controladores reciben las solicitudes HTTP y los servicios gestionan las operaciones y reglas de negocio.
+
+La carpeta `database` contiene la configuración y el servicio de Prisma. La carpeta `common` reúne funciones compartidas por distintos módulos.
+
+## Base de datos
+
+La aplicación utiliza PostgreSQL y Prisma ORM.
+
+Los principales modelos de datos son:
+
+| Modelo | Descripción |
+|---|---|
+| User | Cuentas de usuario y roles. |
+| Member | Información personal de los socios. |
+| Payment | Pagos y períodos abonados. |
+| Sport | Deportes del club. |
+| Category | Categorías asociadas a deportes. |
+| MemberSport | Relación entre socios, deportes y categorías. |
+| Coach | Profesores del club. |
+| Schedule | Horarios de entrenamiento. |
+| News | Noticias y publicaciones. |
+
+Las relaciones entre modelos utilizan claves foráneas y restricciones de integridad. Las migraciones de Prisma permiten mantener el esquema de la base de datos actualizado.
+
+## Instalación y configuración
+
+### Requisitos
+
+- Node.js
+- npm
+- PostgreSQL mediante Supabase.
+- Una cuenta de Supabase con un proyecto configurado.
+
+### 1. Clonar el repositorio
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone https://github.com/EstebanWytry/cae-backend.git
+cd cae-backend
 ```
 
-## Run tests
+### 2. Instalar dependencias
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
+### 3. Configurar las variables de entorno
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Crear un archivo `.env` en la raíz del proyecto:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```env
+DATABASE_URL="postgresql://usuario:contraseña@host:5432/postgres"
+JWT_SECRET="clave_secreta"
+
+SUPABASE_URL="https://tu-proyecto.supabase.co"
+SUPABASE_SECRET_KEY="tu_clave_secreta"
+```
+
+- `DATABASE_URL`: cadena de conexión a PostgreSQL.
+- `JWT_SECRET`: clave utilizada para firmar y verificar los tokens JWT.
+- `SUPABASE_URL`: URL del proyecto de Supabase.
+- `SUPABASE_SECRET_KEY`: clave secreta utilizada para acceder a Supabase Storage.
+
+Las credenciales deben mantenerse privadas y no deben subirse al repositorio.
+
+En Supabase Storage debe existir un bucket público llamado `news-images`, utilizado para almacenar las imágenes de las noticias.
+
+### 4. Aplicar las migraciones
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npx prisma migrate deploy
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Observability
-
-In production applications, observability is essential for understanding how your system behaves, detecting issues early, and maintaining reliable performance.
-
-[NestJS Observe](https://observe.nestjs.com) automatically instruments your NestJS application, giving you deep visibility into your system with minimal setup:
-
-- **Distributed tracing:** Follow requests across services and understand how they flow through your system.
-- **Waterfall analysis:** Visualize request execution and identify slow operations, bottlenecks, and unexpected delays.
-- **Performance analysis:** Analyze application performance in real time and quickly pinpoint areas that need optimization.
-- **Metrics:** Track key application and infrastructure metrics to understand system health and performance trends.
-- **Logging:** Centralize and correlate logs with traces and other telemetry to make debugging easier.
-- **Error tracking:** Detect errors quickly and investigate their root causes with the surrounding context.
-- **SLA monitoring:** Track service-level objectives and identify when your application is approaching or exceeding defined thresholds.
-- **Alarms and alerts:** Set up alerts for critical errors, performance degradation, SLA violations, and other anomalies so your team can react quickly.
-
-This project is already instrumented. To connect it, run this and approve the code it prints at [observe.nestjs.com/link](https://observe.nestjs.com/link) - signing up for free if you have no account:
+### 5. Generar Prisma Client
 
 ```bash
-$ npx @nestjs/observe link
+npx prisma generate --schema=prisma/schema.prisma
 ```
 
-It writes the app key and secret into `.env` and makes every `nest start` script (`start`, `start:dev`, `start:debug`) load it. In production, set `OBSERVE_APP_KEY` and `OBSERVE_APP_SECRET` in the environment instead.
+### 6. Iniciar el servidor
 
-Or do it by hand: create an application and an API key at [observe.nestjs.com](https://observe.nestjs.com), and set the pair as `OBSERVE_APP_KEY` and `OBSERVE_APP_SECRET` in the environment the app runs in.
+Modo desarrollo:
 
-The free plan needs no payment details and covers 300,000 events a month. You can also browse the [live demo](https://www.observe-demo.nestjs.com/dashboard) first - the whole dashboard over a busy service's data, with nothing to install.
+```bash
+npm run start:dev
+```
 
-## Resources
+El servidor estará disponible en:
 
-Check out a few resources that may come in handy when working with NestJS:
+```text
+http://localhost:3000
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Auto-instrument your application with [NestJS Observe](https://observe.nestjs.com). Distributed tracing, metrics, and logging made easy. Error tracking and performance monitoring for your NestJS applications.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Autenticación y permisos
 
-## Support
+La autenticación utiliza JWT. Para acceder a las rutas protegidas se debe enviar el token en el encabezado HTTP:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```http
+Authorization: Bearer <token>
+```
 
-## Stay in touch
+El inicio de sesión se realiza mediante:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```http
+POST /auth/login
+```
 
-## License
+Ejemplo de solicitud:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```json
+{
+  "email": "admin@ejemplo.com",
+  "password": "contraseña"
+}
+```
+
+La respuesta incluye el token de acceso, el identificador del usuario, su correo electrónico y su rol.
+
+El token tiene una duración de una hora.
+
+Las operaciones administrativas requieren un usuario autenticado con el rol `admin`. Las rutas públicas y las operaciones disponibles para socios se indican en la sección de endpoints.
+
+## Endpoints de la API
+
+Base URL:
+
+```text
+http://localhost:3000
+```
+
+| Método | Endpoint | Acceso | Descripción |
+|---|---|---|---|
+| POST | `/auth/login` | Público | Iniciar sesión. |
+| GET | `/sports` | Público | Listar deportes. |
+| GET | `/sports/:id` | Público | Consultar deporte. |
+| POST | `/sports` | Admin | Crear deporte. |
+| PATCH | `/sports/:id` | Admin | Modificar deporte. |
+| DELETE | `/sports/:id` | Admin | Eliminar deporte. |
+| GET | `/members/me` | Admin / Socio | Consultar el propio perfil. |
+| GET | `/members` | Admin | Listar socios. |
+| GET | `/members/:id` | Admin | Consultar socio. |
+| POST | `/members` | Admin | Registrar socio. |
+| PATCH | `/members/:id` | Admin | Modificar socio. |
+| DELETE | `/members/:id` | Admin | Eliminar socio. |
+| POST | `/members/:id/payments` | Admin | Registrar pago. |
+| GET | `/categories` | Admin | Listar categorías. |
+| GET | `/categories/:id` | Admin | Consultar categoría. |
+| POST | `/categories` | Admin | Crear categoría. |
+| PATCH | `/categories/:id` | Admin | Modificar categoría. |
+| DELETE | `/categories/:id` | Admin | Eliminar categoría. |
+| GET | `/coaches` | Público | Listar profesores. |
+| GET | `/coaches/:id` | Público | Consultar profesor. |
+| POST | `/coaches` | Admin | Crear profesor. |
+| PATCH | `/coaches/:id` | Admin | Modificar profesor. |
+| DELETE | `/coaches/:id` | Admin | Eliminar profesor. |
+| GET | `/schedules` | Público | Listar horarios. |
+| GET | `/schedules/:id` | Público | Consultar horario. |
+| POST | `/schedules` | Admin | Crear horario. |
+| PATCH | `/schedules/:id` | Admin | Modificar horario. |
+| DELETE | `/schedules/:id` | Admin | Eliminar horario. |
+| GET | `/news` | Público | Listar noticias. |
+| GET | `/news/:id` | Público | Consultar noticia. |
+| POST | `/news` | Admin | Crear noticia. |
+| PATCH | `/news/:id` | Admin | Modificar noticia. |
+| DELETE | `/news/:id` | Admin | Eliminar noticia. |
+| GET | `/notifications` | Admin | Consultar notificaciones. |
+| POST | `/uploads` | Admin | Subir imagen. |
+| DELETE | `/uploads/:filename` | Admin | Eliminar imagen. |
+
+Para filtrar notificaciones se puede utilizar el parámetro `type`:
+
+```http
+GET /notifications?type=pendiente
+```
+
+## Pruebas
+
+El proyecto utiliza Vitest para ejecutar las pruebas automatizadas.
+
+Ejecutar las pruebas unitarias:
+
+```bash
+npm run test
+```
+
+Ejecutar las pruebas en modo observación:
+
+```bash
+npm run test:watch
+```
+
+Ejecutar las pruebas con cobertura:
+
+```bash
+npm run test:cov
+```
+
+Ejecutar las pruebas end-to-end:
+
+```bash
+npm run test:e2e
+```
+
+También se incluye una colección de Postman en:
+
+```text
+postman/cae-backend.postman_collection.json
+```
+
+Para utilizarla, importar el archivo en Postman y configurar la variable `base_url` con la dirección del servidor.
+
+## Otros comandos
+
+Compilar el proyecto:
+
+```bash
+npm run build
+```
+
+Ejecutar el servidor compilado:
+
+```bash
+npm run start:prod
+```
+
+Ejecutar el análisis estático:
+
+```bash
+npm run lint
+```
+
+Formatear el código:
+
+```bash
+npm run format
+```
+
+---
+
+**Proyecto:** Club Atlético Estudiantes Tucumán  
+**Repositorio:** [cae-backend](https://github.com/EstebanWytry/cae-backend)
