@@ -10,9 +10,13 @@ import {
   ParseFilePipe,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { RolesGuard } from '../auth/guards/roles.guard.js';
+import { Roles } from '../auth/decorators/roles.decorator.js';
 import { UploadsService } from './uploads.service.js';
 import { DeleteUploadParamsDto } from './dto/delete-upload-params.dto.js';
 import {
@@ -25,6 +29,8 @@ import {
 const LIMITE_DE_LECTURA_EN_BYTES = 10 * 1024 * 1024;
 
 @Controller('uploads')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('admin')
 export class UploadsController {
   constructor(private readonly uploadsService: UploadsService) {}
 
