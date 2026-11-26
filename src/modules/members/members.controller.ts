@@ -1,4 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, BadRequestException, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  BadRequestException,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { MembersService } from './members.service.js';
 import { CreateMemberDto } from './dto/create-member.dto.js';
 import { UpdateMemberDto } from './dto/update-member.dto.js';
@@ -7,6 +19,8 @@ import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
 
 @Controller('members')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('admin')
 export class MembersController {
   constructor(private readonly membersService: MembersService) {}
 
@@ -18,6 +32,12 @@ export class MembersController {
   @Get()
   findAll() {
     return this.membersService.findAll();
+  }
+
+  @Get('me')
+  @Roles('admin', 'member')
+  findMe(@Req() req: { user: { id: number; role: string } }) {
+    return this.membersService.findMe(req.user.id);
   }
 
   @Get(':id')
@@ -34,10 +54,6 @@ export class MembersController {
   remove(@Param('id') id: string) {
     return this.membersService.remove(+id);
   }
-
-  @UseGuards(JwtAuthGuard)
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
 
   @Post(':id/payments')
   registerPayment(
