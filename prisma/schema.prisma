@@ -66,7 +66,6 @@ model Member {
 model Payment {
   id           Int      @id @default(autoincrement())
   member_id    Int
-  amount       Decimal  @db.Decimal(10, 2)
   period_month Int
   period_year  Int
   paid_at      DateTime @db.Date
