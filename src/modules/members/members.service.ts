@@ -207,12 +207,112 @@ export class MembersService {
     );
   }
 
-  update(id: number, updateMemberDto: UpdateMemberDto) {
-    return `This action updates a #${id} member`;
+  async update(id: number, updateMemberDto: UpdateMemberDto) {
+    await this.prisma.$transaction(async (tx) => {
+      const socioActual = await tx.member.findUnique({
+        where: { user_id: id },
+        include: {
+          sports: {
+            include: {
+              category: {
+                include: { sport: true },
+              },
+            },
+          },
+        },
+      });
+
+      if (!socioActual) {
+        throw new NotFoundException('Socio no encontrado');
+      }
+
+      const birth_date =
+        updateMemberDto.birth_date ?? formatearFecha(socioActual.birth_date);
+
+      const deportesActuales = socioActual.sports.map(
+        ({ category }) => category.sport.slug,
+      );
+
+      const deportesSolicitados = updateMemberDto.sports ?? deportesActuales;
+
+      const actualizarDeportes =
+        updateMemberDto.sports !== undefined ||
+        updateMemberDto.birth_date !== undefined;
+
+      let deportesSocio: { sport_id: number; category_id: number }[] = [];
+
+      if (actualizarDeportes) {
+        const edad = edadEnElAnio(birth_date, obtenerFechaActual());
+
+        const deportes = await tx.sport.findMany({
+          where: { slug: { in: deportesSolicitados } },
+          include: { categories: true },
+        });
+
+        if (deportes.length !== deportesSolicitados.length) {
+          throw new NotFoundException('Uno o más deportes no existen');
+        }
+
+        deportesSocio = deportes.map((deporte) => {
+          const categoria = buscarCategoria(edad, deporte.categories);
+
+          if (!categoria) {
+            throw new BadRequestException(
+              `No hay una categoría disponible para ${deporte.name}`,
+            );
+          }
+
+          return {
+            sport_id: deporte.id,
+            category_id: categoria.id,
+          };
+        });
+      }
+
+      await tx.member.update({
+        where: { user_id: id },
+        data: {
+          ...(updateMemberDto.name !== undefined && {
+            name: updateMemberDto.name,
+          }),
+          ...(updateMemberDto.document !== undefined && {
+            document: updateMemberDto.document,
+          }),
+          ...(updateMemberDto.birth_date !== undefined && {
+            birth_date: new Date(`${birth_date}T00:00:00.000Z`),
+          }),
+          ...(actualizarDeportes && {
+            sports: {
+              deleteMany: {},
+              create: deportesSocio,
+            },
+          }),
+        },
+      });
+    });
+
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} member`;
+  async remove(id: number) {
+    return this.prisma.$transaction(async (tx) => {
+      const socio = await tx.member.findUnique({
+        where: { user_id: id },
+        select: { user_id: true },
+      });
+
+      if (!socio) {
+        throw new NotFoundException('Socio no encontrado');
+      }
+
+      await tx.user.delete({
+        where: { id: socio.user_id },
+      });
+
+      return {
+        message: 'Socio eliminado correctamente',
+      };
+    });
   }
 
   registerPayment(id: number) {
