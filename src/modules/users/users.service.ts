@@ -1,7 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../database/prisma.service.js';
 
 @Injectable()
 export class UsersService {
-  // Servicio interno: lo usa auth para buscar cuentas (por email o por id).
-  // Los métodos con Prisma se agregan cuando el esquema esté integrado.
+  constructor(private readonly prisma: PrismaService) {}
+
+  findByEmail(email: string) {
+    return this.prisma.user.findUnique({ where: { email } });
+  }
+
+  findById(id: number) {
+    return this.prisma.user.findUnique({ where: { id } });
+  }
 }
