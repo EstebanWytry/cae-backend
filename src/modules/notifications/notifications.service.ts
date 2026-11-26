@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { fechaDeHoy } from '../../common/today.js';
-import { type FichaSocio } from '../members/rules/member-summary.js';
+import { MembersService } from '../members/members.service.js';
 import {
   armarNotificaciones,
   type TipoNotificacion,
@@ -8,10 +8,12 @@ import {
 
 @Injectable()
 export class NotificationsService {
-  findAll(tipo?: TipoNotificacion) {
+  constructor(private readonly membersService: MembersService) {}
+
+  async findAll(tipo?: TipoNotificacion) {
     const hoy = fechaDeHoy();
-    // Por ahora no hay socios: la base de datos se conecta con Prisma más adelante.
-    const fichas: FichaSocio[] = [];
+    const fichas = await this.membersService.findAll();
+
     return armarNotificaciones(fichas, hoy, tipo);
   }
 }
